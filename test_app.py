@@ -27,15 +27,6 @@ def test_index():
     expected_page_text = 'Are you there, world? It\'s me, Ducky!'
     assert expected_page_text == result_page_text
 
-def test_penguins():
-    """Test that the /penguins route shows "Penguins are cute!" """
-    res = app.test_client().get('/penguins')
-    assert res.status_code == 200
-
-    result_page_text = res.get_data(as_text=True)
-    expected_page_text = 'Penguins are cute!'
-    assert expected_page_text == result_page_text
-
 def test_favorite_animal_donkey():
     """Test that the /animal/ANIMAL route shows an appropriate result."""
     res = app.test_client().get('/animal/donkey')
@@ -98,3 +89,28 @@ def test_multiply_123_456():
     result_page_text = res.get_data(as_text=True)
     expected_page_text = '123 times 456 is 56088.'
     assert expected_page_text == result_page_text
+
+def test_sayntimes_hello():
+    """Test the /sayntimes/hello/6 route."""
+    res = app.test_client().get('/sayntimes/hello/6')
+    assert res.status_code == 200
+
+    result_page_text = res.get_data(as_text=True)
+    assert 'hello hello hello hello hello hello' in result_page_text
+    assert 'world' not in result_page_text
+
+def test_sayntimes_world():
+    """Test the /sayntimes/world/3 route."""
+    res = app.test_client().get('/sayntimes/world/3')
+    assert res.status_code == 200
+
+    result_page_text = res.get_data(as_text=True)
+    assert 'world world world' in result_page_text
+    assert 'hello' not in result_page_text
+
+def test_sayntimes_invalid():
+    res = app.test_client().get('/sayntimes/hello/world')
+    assert res.status_code == 200
+
+    result_page_text = res.get_data(as_text=True)
+    assert 'Invalid' in result_page_text

@@ -8,16 +8,6 @@ def homepage():
     """Shows a greating to the user."""
     return "Are you there, world? It's me, Ducky!"
 
-@app.route('/penguins')
-def meredith_favorite_animal():
-    """Meredith's owner favorite animal."""
-    return "Penguins are cute!"
-
-@app.route('/red-panda')
-def personal_favorite_animal():
-    """Personal favorite animal."""
-    return "Red pandas are awesome!"
-
 @app.route('/animal/<users_animal>')
 def favorite_animal(users_animal):
     """Display a message to the user that changes based on their favorite animal."""
@@ -37,8 +27,8 @@ def madlibs(adjective, noun):
 def multiply(number1, number2):
     """Display the multiplication of two numbers pass as parameters."""
     if number1.isdigit() and number2.isdigit():
-        result = float(number1) * float(number2)
-        return f'{number1} times {number2} is {result}'
+        result = int(number1) * int(number2)
+        return f'{number1} times {number2} is {result}.'
     
     else:
         return f'Invalid inputs. Please try again by entering 2 numbers.'
@@ -48,36 +38,13 @@ def sayntimes(word, n):
     """Display the word pass as a parameters an ammount of times also passed as a parameters. """
 
     words_to_return = ""
-    for i in range(int(n)):
-        words_to_return += word + " "
+    if n.isdigit():
+        for _ in range(int(n)):
+            words_to_return += word + " "
+    else:
+        return f'Invalid input. Please try again by entering a word and a number!'
     
     return words_to_return
-
-@app.route('/reverse/<string>')
-def reverse(string):
-    """Display the string backwards i.e with the characters in reverse order."""
-    def reverse_string(x):
-        """Helper function that reverse any string."""
-        return x[::-1]
-
-    return reverse_string(string)
-
-@app.route('/strangecaps/<string>')
-def strangecaps(string):
-    """Display a string that is alternating lowercase and uppercase letters."""
-
-    words_strange_caps = ""
-    count = 0
-
-    for letter in string:   
-        if count % 2 == 0:
-            words_strange_caps += letter.lower()
-            count += 1
-        else:
-            words_strange_caps += letter.upper()
-            count += 1
-    
-    return words_strange_caps
 
 @app.route('/dicegame')
 def dicegame():
